@@ -35,7 +35,8 @@ def add_svlbi_cron_job(month, year, save_dir, user=True):
 
     # Add crontab with user specified dates and directory
     cron = CronTab(user=user)
-    cmd = 'cron_command {} {} {}'.format(month, year, save_dir)
+    cmd = '/home/ilya/.local/bin/cron_command.py {} {} {}'.format(month, year,
+                                                                  save_dir)
     cron_job = cron.new(command=cmd, comment="checking SVLBI schedule for"
                                              " {}-{}".format(month, year))
     cron_job.hour.every(1)
