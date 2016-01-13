@@ -39,12 +39,12 @@ def add_svlbi_cron_job(month, year, save_dir, user=True):
                                                                   save_dir)
     cron_job = cron.new(command=cmd, comment="checking SVLBI schedule for"
                                              " {}-{}".format(month, year))
-    cron_job.hour.every(1)
     if month == '1':
         month_ = '12'
     else:
         month_ = str(int(month) - 1)
     cron_job.month.during(month_, month)
+    cron_job.minute.every(30)
     assert cron_job.is_valid() == True
     # comments = cron.find_comment('SVLBI schedule for {}-{}'.format(month, year))
     # if comments:
