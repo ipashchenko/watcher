@@ -1,3 +1,6 @@
+#!/usr/bin python
+# -*- coding: utf-8 -*-
+
 import os
 import sys
 import shutil
@@ -9,7 +12,9 @@ from filecmp import cmp
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from os.path import basename
-from watcher import get_last_svlbi_schedule
+path = os.path.normpath(os.path.join(os.path.dirname(sys.argv[0]), '..'))
+sys.path.insert(0, path)
+from watcher import watcher
 import logging
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s -'
                                                 ' %(message)s')
@@ -81,10 +86,14 @@ def func(f1, f2):
 
 
 if __name__ == '__main__':
+    if not len(sys.argv) == 4:
+        print("Usage: cron_command.py month year directory")
+        sys.exit(0)
     month = sys.argv[1]
     year = sys.argv[2]
     # User-specified directory
     dir = sys.argv[3]
     # Get last SVLBI schedule
-    get_last_svlbi_schedule(month, year, os.path.join(dir, 'svlbi_new.txt'))
+    watcher.get_last_svlbi_schedule(month, year, os.path.join(dir,
+                                                              'svlbi_new.txt'))
     func(os.path.join(dir, 'svlbi.txt'), os.path.join(dir, 'svlbi_new.txt'))
