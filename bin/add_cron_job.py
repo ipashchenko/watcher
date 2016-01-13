@@ -1,6 +1,9 @@
 import os
+import sys
 from crontab import CronTab
-from watcher import get_last_svlbi_schedule
+path = os.path.normpath(os.path.join(os.path.dirname(sys.argv[0]), '..'))
+sys.path.insert(0, path)
+from watcher import watcher
 import logging
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s -'
                                                 ' %(message)s')
@@ -26,7 +29,8 @@ def add_svlbi_cron_job(month, year, save_dir, user=True):
     logging.debug("Downloading last SVLBI schedule to {}".format(save_dir))
     if not os.path.isdir(save_dir):
         os.mkdir(save_dir)
-    get_last_svlbi_schedule(month, year, os.path.join(save_dir, 'svlbi.txt'))
+    watcher.get_last_svlbi_schedule(month, year, os.path.join(save_dir,
+                                                              'svlbi.txt'))
 
     # Add crontab with user specified dates and directory
     cron = CronTab(user=user)
@@ -43,5 +47,17 @@ def add_svlbi_cron_job(month, year, save_dir, user=True):
     comments = cron.find_comment('SVLBI schedule for {}-{}'.format(month, year))
     if comments:
         raise Exception("There is already job with given parameters!")
-    # cron.write_to_user(user=user)
     print cron_job.render()
+    cron.write_to_user(user=user)
+
+
+if __name__ == '__main__':
+    if not len(sys.argv) == 4:
+        print("Usage: cron_command.py month year directory")
+        sys.exit(0)
+    month = sys.argv[1]
+    year = sys.argv[2]
+    # User-specified directory
+    dir = sys.argv[3]
+    # Add cron job
+    add_svlbi_cron_job(month, year, dir)
