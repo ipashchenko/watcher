@@ -45,9 +45,9 @@ def add_svlbi_cron_job(month, year, save_dir, user=True):
         month_ = str(int(month) - 1)
     cron_job.month.during(month_, month)
     assert cron_job.is_valid() == True
-    comments = cron.find_comment('SVLBI schedule for {}-{}'.format(month, year))
-    if comments:
-        raise Exception("There is already job with given parameters!")
+    # comments = cron.find_comment('SVLBI schedule for {}-{}'.format(month, year))
+    # if comments:
+    #     raise Exception("There is already job with given parameters!")
     print cron_job.render()
     cron.write_to_user(user=user)
 
