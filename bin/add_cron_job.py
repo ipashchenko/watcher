@@ -29,7 +29,7 @@ def add_svlbi_cron_job(month, year, save_dir, user=True):
     # user-specified directory
     logging.debug("Downloading last SVLBI schedule to {}".format(save_dir))
     if not os.mkdir(save_dir):
-        subprocess.Popen('mkdir', '-p', save_dir)
+        subprocess.Popen(['mkdir', '-p', save_dir])
     watcher.get_last_svlbi_schedule(month, year, os.path.join(save_dir,
                                                               'svlbi.txt'))
 
