@@ -28,7 +28,7 @@ def add_svlbi_cron_job(month, year, save_dir, user=True):
     # First download current version of SVLBI schedule and put it to
     # user-specified directory
     logging.debug("Downloading last SVLBI schedule to {}".format(save_dir))
-    if not os.mkdir(save_dir):
+    if not os.path.isdir(save_dir):
         subprocess.Popen(['mkdir', '-p', save_dir])
     watcher.get_last_svlbi_schedule(month, year, os.path.join(save_dir,
                                                               'svlbi.txt'))
@@ -39,10 +39,10 @@ def add_svlbi_cron_job(month, year, save_dir, user=True):
     cron_job = cron.new(command=cmd, comment="checking SVLBI schedule for"
                                              " {}-{}".format(month, year))
     cron_job.hour.every(1)
-    if month == 1:
-        month_ = 12
+    if month == '1':
+        month_ = '12'
     else:
-        month_ = month - 1
+        month_ = str(int(month) - 1)
     cron_job.month.during(month_, month)
     assert cron_job.is_valid() == True
     comments = cron.find_comment('SVLBI schedule for {}-{}'.format(month, year))
