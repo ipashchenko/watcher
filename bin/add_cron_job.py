@@ -53,7 +53,7 @@ def add_svlbi_cron_job(month, year, save_dir, user=True):
 
 if __name__ == '__main__':
     if not len(sys.argv) == 4:
-        print("Usage: cron_command.py month year directory")
+        print("Usage: add_cron_job.py month year directory")
         sys.exit(0)
     month = sys.argv[1]
     year = sys.argv[2]
