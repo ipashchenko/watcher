@@ -14,7 +14,7 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     scripts=['bin/cron_command.py', 'bin/add_cron_job.py'],
 
-    install_requires=['python-crontab'],
+    install_requires=['python-crontab', 'paramiko'],
 
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
