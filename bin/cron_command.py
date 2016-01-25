@@ -69,19 +69,6 @@ def func(f1, f2):
     else:
         logging.debug("Files {} & {} are the same!".format(basename(f1),
                                                            basename(f2)))
-        text = ''.join('')
-        body = text
-        msg['Subject'] = "No changes in SVLBI schedule"
-        msg.attach(MIMEText(body, 'plain'))
-        s = smtplib.SMTP(smtpserver)
-        secrets = netrc.netrc()
-        netrclogin, netrcaccount, netrcpassword = secrets.authenticators(smtpserver)
-        if tls:
-            s.starttls()
-            s.login(netrclogin, netrcpassword)
-        s.sendmail('in4pashchenko@gmail.com', ['in4-pashchenko@yandex.ru'],
-                   msg.as_string())
-        s.quit()
         os.unlink(f2)
 
 
